@@ -19,6 +19,7 @@ export interface Props {
 export default function ModalNewsletter({ coupons }: Props) {
   const { displayNewsletterModal } = useUI();
   const alreadyRolled = useSignal(false);
+  const copied = useSignal(false);
   const sorteado = useSignal(0);
   const rotation = useSignal(0);
   const itemsStyles = (item: Coupon, count: number, index: number) => {
@@ -63,6 +64,11 @@ export default function ModalNewsletter({ coupons }: Props) {
       alreadyRolled.value = true;
     }, 3000);
   };
+  const copyToClipBoard = async (e: Event, text:string) => {
+    e.preventDefault();
+    await navigator.clipboard.writeText(text);
+    copied.value = true;
+  }
   return (
     <>
       {displayNewsletterModal.value && (
@@ -107,7 +113,7 @@ export default function ModalNewsletter({ coupons }: Props) {
                   }`}
                   onClick={() => handleRoleta(coupons.length)}
                 >
-                  <div class="absolute w-[15px] h-[15px] border -top-[7px] left-[calc(50%-7.5px)] rotate-45 border-r-0 border-b-0 bg-white">
+                  <div class="absolute w-[15px] h-[15px] border -top-[157px] left-[calc(50%-7.5px)] rotate-45 border-r-0 border-b-0 bg-white">
                   </div>
                   <span class="text-[1.6em] tracking-[-0.05em] flex h-full justify-center items-center">
                     GIRAR
@@ -125,8 +131,16 @@ export default function ModalNewsletter({ coupons }: Props) {
                   </span>
 
                   {alreadyRolled.value && (
-                    <div class="text-white pb-2">
-                      Cupom sorteado: {coupons[sorteado.value].label}
+                    <div class="text-white pb-2 flex flex-col items-center justify-center">
+                      {coupons[sorteado.value].winner 
+                      ? (
+                          <>
+                            <span>Cupom sorteado: <span class="border border-dashed border-white uppercase p-1">{coupons[sorteado.value].cupom}</span></span>
+                            <button class="btn btn-outline border-white text-white mt-2 disabled:text-white" disabled={copied.value} onClick={(e) => copyToClipBoard(e, coupons[sorteado.value].cupom!)}>{copied.value ? "Copiado!" : "Copiar"}</button>
+                          </>
+                        )
+                          : <>Poxa! Não foi dessa vez que você conseguiu... Volte mais tarde e tente novamente!</> 
+                        }
                     </div>
                   )}
 
