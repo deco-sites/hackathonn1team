@@ -68,14 +68,14 @@ export default function ModalNewsletter({ coupons }: Props) {
       {displayNewsletterModal.value && (
         <div class="fixed bg-black/[.5] w-full h-full top-0 left-0 z-20 flex items-center justify-center">
           <div class="hidden animate-spin"></div>
-          <div class="w-[1000px] h-[600px] bg-[#141313] relative">
+          <div class="w-[1000px] h-[600px] bg-[#141313] rounded-lg relative">
             <span
               class="font-[Roboto] font-bold absolute top-3 right-3 text-white cursor-pointer"
               onClick={() => displayNewsletterModal.value = false}
             >
               X
             </span>
-            <div class="w-full h-full flex items-end justify-center">
+            <div class="w-full h-full flex items-center justify-center">
               <div
                 id="roulette"
                 class="block absolute w-[400px] h-[400px] top-1/2 left-1/2 -mt-[200px]"
@@ -114,11 +114,49 @@ export default function ModalNewsletter({ coupons }: Props) {
                   </span>
                 </div>
               </div>
-              {alreadyRolled.value && (
-                <div class="text-white pb-2">
-                  Cupom sorteado: {coupons[sorteado.value].label}
-                </div>
-              )}
+
+              <div class="w-full flex flex-col px-10">
+                <form class="flex flex-col gap-5 items-center w-full max-w-[340px]">
+                  <h2 class="font-mono  text-white text-[37px] font-bold uppercase tracking-wide mb-5">
+                    Quer Desconto?
+                  </h2>
+                  <span class="text-white font-[Roboto] text-[19px] mb-2">
+                    Coloque seu email e ganhe mais um cupom de desconto!
+                  </span>
+
+                  {alreadyRolled.value && (
+                    <div class="text-white pb-2">
+                      Cupom sorteado: {coupons[sorteado.value].label}
+                    </div>
+                  )}
+
+                  <div class="flex flex-col gap-3 w-full">
+                    <label for="" class="text-white font-[Roboto] text-base">
+                      Nome
+                    </label>
+                    <input
+                      class="bg-white border-gray-400 rounded-md p-3"
+                      type="text"
+                      placeholder="Nome"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-3 w-full">
+                    <label for="" class="text-white font-[Roboto] text-base">
+                      E-mail
+                    </label>
+                    <input
+                      class="w-full bg-white border-gray-400 rounded-md p-3"
+                      type="email"
+                      placeholder="E-mail"
+                    />
+                  </div>
+                  <div class="flex flex-col gap-3 w-full">
+                    <button class="w-full bg-orange-600 border-none rounded-md hover:bg-orange-700 hover:transition hover:duration-[.3s] py-3 px-5 text-white">
+                      Enviar
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
